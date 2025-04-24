@@ -24,11 +24,11 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     // console.log(decoded);
 
-    const { role, userEmail } = decoded;
+    const { role, email } = decoded;
     // console.log(role, userEmail);
 
     //   checking if the user is exists
-    const user = await User.isUserExistByEmail(userEmail);
+    const user = await User.isUserExistByEmail(email);
 
     if (!user) {
       throw new AppError(HttpStatus.NOT_FOUND, 'This user is not found !');
