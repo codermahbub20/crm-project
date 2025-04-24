@@ -106,6 +106,6 @@ const RefreshToken = async (refreshToken: string) => {
   return { accessToken };
 };
 
-const AuthService = { Login, Register, RefreshToken, ChangePassword };
+const AuthService = { Login, Register, RefreshToken };
 
 export default AuthService;
