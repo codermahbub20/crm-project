@@ -1,5 +1,5 @@
 import { Request, RequestHandler, Response } from 'express';
-import CatchAsync from '../../utils/catchAsync';
+import CatchAsync from '../../utils/CatchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { HttpStatus } from 'http-status-ts';
 import { UserServices } from './user.service';
