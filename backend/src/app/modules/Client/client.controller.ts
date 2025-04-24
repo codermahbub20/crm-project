@@ -9,21 +9,9 @@ const createClient = CatchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: HttpStatus.CREATED,
     success: true,
-    message: 'Client Created successfully',
+    message: 'Create Client successfully',
     data: result,
   });
 });
 
-const addProjectToClient = CatchAsync(async (req: Request, res: Response) => {
-  const { clientId } = req.params;
-  const project = req.body;
-  const result = await ClientService.addProjectToClient(clientId, project);
-  sendResponse(res, {
-    statusCode: HttpStatus.CREATED,
-    success: true,
-    message: 'Client Project add successfully',
-    data: result,
-  });
-});
-
-export const ClientController = { createClient, addProjectToClient };
+export const ClientController = { createClient };

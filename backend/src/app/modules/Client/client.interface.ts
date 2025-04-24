@@ -1,9 +1,4 @@
-export interface TProject {
-  title: string;
-  budget: number;
-  deadline: Date;
-  status: 'Ongoing' | 'Completed' | 'Pending';
-}
+import { TProject } from '../Project/project.interface';
 
 export interface TClient {
   name: string;

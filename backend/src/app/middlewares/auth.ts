@@ -29,6 +29,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     //   checking if the user is exists
     const user = await User.isUserExistByEmail(email);
+    console.log(user);
 
     if (!user) {
       throw new AppError(HttpStatus.NOT_FOUND, 'This user is not found !');
@@ -46,13 +47,6 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     if (userStatus === true) {
       throw new AppError(HttpStatus.FORBIDDEN, 'This user is blocked ! !');
-    }
-
-    if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
-        HttpStatus.UNAUTHORIZED,
-        'You are not authorized  hi!',
-      );
     }
 
     // decoded undefined
