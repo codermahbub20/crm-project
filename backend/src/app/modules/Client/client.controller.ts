@@ -14,4 +14,14 @@ const createClient = CatchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const ClientController = { createClient };
+const getAllClients = CatchAsync(async (req: Request, res: Response) => {
+  const result = await ClientService.getAllClients(req.query);
+  sendResponse(res, {
+    statusCode: HttpStatus.OK,
+    success: true,
+    message: 'Get all Clients successfully',
+    data: result,
+  });
+});
+
+export const ClientController = { createClient, getAllClients };

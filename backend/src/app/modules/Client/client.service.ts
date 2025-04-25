@@ -6,4 +6,9 @@ const createClient = async (clientData: TClient) => {
   return result;
 };
 
-export const ClientService = { createClient };
+const getAllClients = async (query: any) => {
+  const result = await Client.find();
+  return result;
+};
+
+export const ClientService = { createClient, getAllClients };
