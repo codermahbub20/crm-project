@@ -4,12 +4,17 @@ import router from './app/routes';
 
 const app: Application = express();
 
-// parsers use
-app.use(express.json());
-app.use(cors());
+// Use CORS with proper configuration
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // ✅ your frontend URL
+    credentials: true, // ✅ allow cookies, headers, etc.
+  }),
+);
 
-// routes use
-// application routes
+app.use(express.json());
+
+// Application routes
 app.use('/api', router);
 
 app.get('/', (req: Request, res: Response) => {

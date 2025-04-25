@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -14,7 +13,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = ((getState() as RootState).auth as any).token;
+    const token = (getState() as RootState).auth.token;
     if (token) {
       headers.set("authorization", `${token}`);
     }
@@ -35,7 +34,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     });
     const data = await res.json();
     if (data?.data?.accessToken) {
-      const user = ((api.getState() as RootState).auth as any).user;
+      const user = (api.getState() as RootState).auth.user;
 
       api.dispatch(
         setUser({
