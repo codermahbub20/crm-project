@@ -1,5 +1,6 @@
 import { Menu, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const MainLayout = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -30,6 +31,14 @@ const MainLayout = () => {
     }
   };
 
+  const sidebarItems = [
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Clients", href: "/clients" },
+    { name: "Projects", href: "/projects" },
+    { name: "Logs", href: "/logs" },
+    { name: "Reminders", href: "/reminders" },
+  ];
+
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100 dark:bg-gray-900">
       {/* Sidebar */}
@@ -42,17 +51,15 @@ const MainLayout = () => {
           Mini-CRM
         </h2>
         <nav className="flex flex-col space-y-2">
-          {["Dashboard", "Clients", "Projects", "Logs", "Reminders"].map(
-            (item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded"
-              >
-                {item}
-              </a>
-            )
-          )}
+          {sidebarItems.map((item) => (
+            <Link
+              key={item.name}
+              to={item.href}
+              className="text-gray-800 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded"
+            >
+              {item.name}
+            </Link>
+          ))}
         </nav>
       </aside>
 
