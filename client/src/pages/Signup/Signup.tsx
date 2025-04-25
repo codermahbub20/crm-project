@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm, FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
