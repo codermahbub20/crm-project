@@ -1,36 +1,32 @@
 import { baseApi } from "../../api/baseApi";
-// client.interface.ts
-export interface Client {
-  _id: string;
-  name: string;
-}
 
-const clientApi = baseApi.injectEndpoints({
+const projectApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Fetch a single client by ID
     // getClient: builder.query({
     //   query: (id) => `client/${id}`,
     // }),
 
-    getAllClients: builder.query<Client[], void>({
-      query: () => ({
-        url: "/clients",
+    getAllProjects: builder.query({
+      query: (query) => ({
+        url: "/projects",
         method: "GET",
+        params: query,
       }),
     }),
 
     // Create a new client
-    createClient: builder.mutation({
+    createProject: builder.mutation({
       query: (payload) => ({
-        url: "clients",
+        url: "projects",
         method: "POST",
         body: payload,
       }),
     }),
     // Update an existing client
-    updateClient: builder.mutation({
+    updateProject: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `client/${id}`,
+        url: `project/${id}`,
         method: "PATCH",
         body: patch,
       }),
@@ -42,9 +38,9 @@ const clientApi = baseApi.injectEndpoints({
 export const {
   //   useGetClientQuery,
   //   useGetClientsQuery,
-  useGetAllClientsQuery,
-  useCreateClientMutation,
-  useUpdateClientMutation,
-} = clientApi;
+  useGetAllProjectsQuery,
+  useCreateProjectMutation,
+  useUpdateProjectMutation,
+} = projectApi;
 
-export default clientApi;
+export default projectApi;
