@@ -45,10 +45,10 @@ const MainLayout = () => {
   const sidebarItems = user
     ? [
         { name: "Dashboard", href: "/" },
-        { name: "Clients", href: "/clients" },
-        { name: "Projects", href: "/projects" },
-        { name: "Logs", href: "/logs" },
-        { name: "Reminders", href: "/reminders" },
+        { name: "Create Clients", href: "/clients" },
+        { name: "Create Projects", href: "/projects" },
+        { name: "Create Logs", href: "/logs" },
+        { name: "Add Reminders", href: "/reminders" },
       ]
     : [
         { name: "Login", href: "/login" },

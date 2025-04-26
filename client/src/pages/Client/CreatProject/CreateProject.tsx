@@ -29,7 +29,7 @@ const CreateProject = () => {
 
   const { data = [], error, isLoading } = useGetAllClientsQuery();
 
-  const clients = data || [];
+  const clients = data?.data || [];
 
   const [createProject] = useCreateProjectMutation();
 
@@ -47,7 +47,7 @@ const CreateProject = () => {
       await createProject(projectInfo).unwrap();
       toast.success("Project added successfully");
       reset();
-      navigate("/projects");
+      navigate("/projects"); // Redirect after successful creation
     } catch (err) {
       toast.error("Failed to add project");
     }
