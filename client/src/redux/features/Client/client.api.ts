@@ -31,7 +31,7 @@ const clientApi = baseApi.injectEndpoints({
     // Update an existing client
     updateClient: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `client/${id}`,
+        url: `/client/${id}`,
         method: "PATCH",
         body: patch,
       }),

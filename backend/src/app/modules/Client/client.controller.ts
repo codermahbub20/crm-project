@@ -25,4 +25,17 @@ const getAllClients = CatchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const ClientController = { createClient, getAllClients };
+const updateClient = CatchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const updateData = req.body;
+  const result = await ClientService.updateClientById(id, updateData);
+
+  sendResponse(res, {
+    statusCode: HttpStatus.OK,
+    success: true,
+    message: 'Client updated successfully',
+    data: result,
+  });
+});
+
+export const ClientController = { createClient, getAllClients, updateClient };

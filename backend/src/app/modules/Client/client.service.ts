@@ -13,4 +13,9 @@ const getAllClients = async (query: any) => {
   return result;
 };
 
-export const ClientService = { createClient, getAllClients };
+const updateClientById = async (id: string, updateData: Partial<TClient>) => {
+  const result = await Client.findByIdAndUpdate(id, updateData, { new: true });
+  return result;
+};
+
+export const ClientService = { createClient, getAllClients, updateClientById };

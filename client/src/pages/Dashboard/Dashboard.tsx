@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BarChart,
   Bar,
@@ -6,6 +7,11 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import ClientsTable from "./ClientsTable";
+import EditClientModal from "./EditClientModal";
+import { useState } from "react";
+import { useGetAllClientsQuery } from "../../redux/features/Client/client.api";
+import { useSelector } from "react-redux";
 
 const Card = ({
   children,
@@ -19,9 +25,13 @@ const Card = ({
   </div>
 );
 
-const CardContent = ({ children }: { children: React.ReactNode }) => (
-  <div>{children}</div>
-);
+const CardContent = ({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => <div className={className}>{children}</div>;
 
 const CardHeader = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-2">{children}</div>
@@ -32,26 +42,14 @@ const CardTitle = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Dashboard = () => {
-  const clients = [
-    {
-      id: 1,
-      name: "Jane Smith",
-      email: "jane.cmim@example.com",
-      phone: "(905) 655-5555",
-    },
-    {
-      id: 2,
-      name: "Acme Corp",
-      email: "acme.coro@example.com",
-      phone: "(625) 555-5500",
-    },
-    {
-      id: 3,
-      name: "Widget Solutions",
-      email: "widgets@xampoo.com",
-      phone: "(555) 555-2120",
-    },
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
+
+  const { user } = useSelector((state: any) => state.auth);
+
+  const { data = [], refetch } = useGetAllClientsQuery(user?.email);
+
+  const clients = data?.data || [];
 
   const projectsByStatus = [
     { status: "In Progress", count: 4 },
@@ -66,13 +64,29 @@ const Dashboard = () => {
 
   const remindersDue = 2;
 
+  // Open the modal and set the selected client
+  const handleEditClient = (client: any) => {
+    setSelectedClient(client);
+    setIsModalOpen(true);
+  };
+  const handleDeleteClient = (client: any) => {
+    setSelectedClient(client);
+    setIsModalOpen(true);
+  };
+
+  // Close the modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedClient(null);
+  };
+
   return (
     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       {/* Top Stats */}
       <Card className="col-span-1">
         <CardContent className="p-6 text-center">
           <h2 className="text-lg font-semibold">Total Clients</h2>
-          <p className="text-2xl font-bold">{clients.length}</p>
+          <p className="text-2xl font-bold">{clients?.length}</p>
         </CardContent>
       </Card>
       <Card className="col-span-1">
@@ -92,19 +106,12 @@ const Dashboard = () => {
 
       {/* Clients List */}
       <Card className="col-span-1 md:col-span-2">
-        <CardHeader>
-          <CardTitle>Clients</CardTitle>
-        </CardHeader>
         <CardContent className="space-y-4">
-          {clients.map((client) => (
-            <div key={client.id} className="flex justify-between border-b pb-2">
-              <div>
-                <p className="font-semibold">{client.name}</p>
-                <p className="text-sm text-gray-500">{client.email}</p>
-              </div>
-              <p className="text-gray-600">{client.phone}</p>
-            </div>
-          ))}
+          <ClientsTable
+            clients={clients}
+            onDeleteClient={handleDeleteClient}
+            onEditClient={handleEditClient}
+          />
         </CardContent>
       </Card>
 
@@ -143,6 +150,15 @@ const Dashboard = () => {
           ))}
         </CardContent>
       </Card>
+
+      {/* Edit Client Modal */}
+      {isModalOpen && (
+        <EditClientModal
+          client={selectedClient}
+          onClose={handleCloseModal}
+          refetchClients={refetch}
+        />
+      )}
     </div>
   );
 };

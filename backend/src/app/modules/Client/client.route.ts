@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/clients', ClientController.createClient);
 router.get('/clients', ClientController.getAllClients);
+router.patch('/client/:id', ClientController.updateClient);
 
 export const clientRoutes = router;
