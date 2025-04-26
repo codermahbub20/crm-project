@@ -8,10 +8,10 @@ const projectApi = baseApi.injectEndpoints({
     // }),
 
     getAllProjects: builder.query({
-      query: (query) => ({
+      query: (userEmail) => ({
         url: "/projects",
         method: "GET",
-        params: query,
+        params: userEmail ? { userEmail } : {}, // Pass userEmail as a query parameter
       }),
     }),
 

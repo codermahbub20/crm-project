@@ -7,7 +7,9 @@ const createClient = async (clientData: TClient) => {
 };
 
 const getAllClients = async (query: any) => {
-  const result = await Client.find();
+  const { userEmail } = query;
+  const filter = userEmail ? { userEmail } : {};
+  const result = await Client.find(filter);
   return result;
 };
 

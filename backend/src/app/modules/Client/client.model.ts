@@ -11,6 +11,11 @@ const ClientSchema = new Schema<TClient & Document>({
     required: true,
     unique: true,
   },
+  userEmail: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   phone: {
     type: String,
     required: true,

@@ -14,7 +14,8 @@ const addProjectToClient = async (req: Request, res: Response) => {
 };
 
 const getAllProjects = async (req: Request, res: Response) => {
-  const result = await ProjectService.getAllProjects();
+  const query = req.query;
+  const result = await ProjectService.getAllProjects(query);
   sendResponse(res, {
     statusCode: HttpStatus.CREATED,
     success: true,

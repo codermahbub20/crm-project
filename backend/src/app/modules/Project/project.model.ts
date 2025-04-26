@@ -6,6 +6,10 @@ const ProjectSchema = new Schema<TProject & Document>({
     type: String,
     required: true,
   },
+  userEmail: {
+    type: String,
+    required: true,
+  },
   budget: {
     type: Number,
     required: true,

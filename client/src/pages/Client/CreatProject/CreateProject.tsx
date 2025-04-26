@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useCreateProjectMutation } from "../../../redux/features/Project/project.api";
 import { useGetAllClientsQuery } from "../../../redux/features/Client/client.api";
+import { useSelector } from "react-redux";
 
 interface AddProjectForm {
   title: string;
@@ -27,7 +29,9 @@ const CreateProject = () => {
     formState: { errors },
   } = useForm<AddProjectForm>();
 
-  const { data = [], error, isLoading } = useGetAllClientsQuery();
+  const { user } = useSelector((state: any) => state.auth);
+
+  const { data = [], error, isLoading } = useGetAllClientsQuery(user?.email);
 
   const clients = data?.data || [];
 
@@ -39,6 +43,7 @@ const CreateProject = () => {
       const projectInfo = {
         title: data.title,
         budget: data.budget,
+        userEmail: user?.email,
         deadline: new Date(data.deadline), // Convert string to Date object
         status: data.status,
         clientId: data.clientId,

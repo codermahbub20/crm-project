@@ -5,6 +5,7 @@ import CreateProject from "../pages/Client/CreatProject/CreateProject";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import LogIn from "../pages/Login/LogIn";
 import Signup from "../pages/Signup/Signup";
+import AddLogs from "../pages/Client/AddLogs/AddLogs";
 
 // import CheckoutPage from '../pages/ChekoutPage/CheckoutPage'
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/projects",
         element: <CreateProject />,
+      },
+      {
+        path: "/logs",
+        element: <AddLogs />,
       },
       {
         path: "/login",

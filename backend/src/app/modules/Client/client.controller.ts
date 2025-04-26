@@ -15,7 +15,8 @@ const createClient = CatchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllClients = CatchAsync(async (req: Request, res: Response) => {
-  const result = await ClientService.getAllClients(req.query);
+  const query = req.query;
+  const result = await ClientService.getAllClients(query);
   sendResponse(res, {
     statusCode: HttpStatus.OK,
     success: true,

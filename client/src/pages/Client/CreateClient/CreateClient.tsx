@@ -4,10 +4,12 @@ import { useForm, FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useCreateClientMutation } from "../../../redux/features/Client/client.api";
+import { useSelector } from "react-redux";
 
 const CreateClient = () => {
   const navigate = useNavigate();
   const [createClient] = useCreateClientMutation();
+  const { user } = useSelector((state: any) => state.auth);
 
   const {
     register,
@@ -33,6 +35,7 @@ const CreateClient = () => {
       phone: data.phone,
       company: data.company || "",
       notes: data.notes || "",
+      userEmail: user?.email,
     };
 
     try {

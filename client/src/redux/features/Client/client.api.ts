@@ -12,10 +12,11 @@ const clientApi = baseApi.injectEndpoints({
     //   query: (id) => `client/${id}`,
     // }),
 
-    getAllClients: builder.query<Client[], void>({
-      query: () => ({
-        url: "/clients",
+    getAllClients: builder.query({
+      query: (userEmail) => ({
+        url: `/clients`,
         method: "GET",
+        params: userEmail ? { userEmail } : {}, // Pass userEmail as a query parameter
       }),
     }),
 

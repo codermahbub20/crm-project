@@ -13,8 +13,10 @@ const addProjectToClient = async (projectData: TProject) => {
   return project;
 };
 
-const getAllProjects = async () => {
-  const projects = await Project.find().populate('clientId');
+const getAllProjects = async (query: any) => {
+  const { userEmail } = query;
+  const filter = userEmail ? { userEmail } : {};
+  const projects = await Project.find(filter).populate('clientId');
   return projects;
 };
 
