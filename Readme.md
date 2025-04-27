@@ -61,6 +61,10 @@ npm install
 
 npm run dev
 
+7.  LoginCredential
+    Email: mkrefat5@gmail.com
+    Pass: 12345678
+
 # Entity Relationship Diagram (ERD)
 
 User
