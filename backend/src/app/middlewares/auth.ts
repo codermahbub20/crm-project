@@ -11,46 +11,44 @@ const auth = (...requiredRoles: TUserRole[]) => {
   return CatchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
 
-    // checking if the token is missing
+    // Check if the token is missing
     if (!token) {
       throw new AppError(HttpStatus.UNAUTHORIZED, 'You are not authorized!');
     }
 
-    // check if the token is valid
+    // Verify the token
     const decoded = jwt.verify(
       token,
       config.jwt_secret as string,
     ) as JwtPayload;
 
-    // console.log(decoded);
-
     const { role, email } = decoded;
-    // console.log(role, userEmail);
 
-    //   checking if the user is exists
+    // Check if the user exists
     const user = await User.isUserExistByEmail(email);
-    console.log(user);
 
     if (!user) {
-      throw new AppError(HttpStatus.NOT_FOUND, 'This user is not found !');
-    }
-    // checking if the user is already deleted
-
-    // const isDeleted = user?.isDeleted;
-
-    // if (isDeleted) {
-    //   throw new AppError(HttpStatus.FORBIDDEN, 'This user is deleted !');
-    // }
-
-    // checking if the user is blocked
-    const userStatus = user?.isBlocked;
-
-    if (userStatus === true) {
-      throw new AppError(HttpStatus.FORBIDDEN, 'This user is blocked ! !');
+      throw new AppError(HttpStatus.NOT_FOUND, 'This user is not found!');
     }
 
-    // decoded undefined
+    // Check if the user is blocked
+    if (user.isBlocked) {
+      throw new AppError(HttpStatus.FORBIDDEN, 'This user is blocked!');
+    }
+
+    // Check if the user has the required role
+    if (requiredRoles.length && !requiredRoles.includes(role)) {
+      throw new AppError(
+        HttpStatus.FORBIDDEN,
+        'You do not have access to this resource!',
+      );
+    }
+
+    // Attach the user to the request object
     req.user = decoded as JwtPayload;
+
+    // Pass control to the next middleware or route handler
+    next();
   });
 };
 
