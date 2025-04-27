@@ -24,6 +24,8 @@ import {
 import ProjectsTable from "./Projects/ProjectsTable";
 import EditProjectModal from "./Projects/EditProjectModal";
 import LogsTable from "./Logs/LogsTable";
+import Reminder from "./Reminders/Reminder";
+import { useGetAllLogsQuery } from "../../redux/features/Logs/logs.api";
 
 const Card = ({
   children,
@@ -69,8 +71,21 @@ const Dashboard = () => {
     useGetAllProjectsQuery(user?.email);
   const [deleteProject] = useDeleteProjectMutation();
 
+  const { data: getAllLogs = [] } = useGetAllLogsQuery(user?.email);
+
+  const logs: Log[] = getAllLogs?.data || [];
+
   const clients = clientData?.data || [];
   const projects = projectData?.data || [];
+
+  const today = new Date();
+  const nextWeek = new Date();
+  nextWeek.setDate(today.getDate() + 7);
+
+  const thisWeekReminders = logs.filter((interaction) => {
+    const interactionDate = new Date(interaction.date);
+    return interactionDate >= today && interactionDate <= nextWeek;
+  });
 
   const projectsByStatus = [
     {
@@ -150,7 +165,7 @@ const Dashboard = () => {
       <Card className="col-span-1">
         <CardContent className="p-6 text-center">
           <h2 className="text-lg font-semibold">Reminders Due Soon</h2>
-          <p className="text-2xl font-bold">{remindersDue}</p>
+          <p className="text-2xl font-bold">{thisWeekReminders.length}</p>
         </CardContent>
       </Card>
 
@@ -205,18 +220,8 @@ const Dashboard = () => {
 
       {/* Projects by Status Chart */}
       <Card className="col-span-1">
-        <CardHeader>
-          <CardTitle>Projects by Status</CardTitle>
-        </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={projectsByStatus}>
-              <XAxis dataKey="status" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="count" fill="#3b82f6" />
-            </BarChart>
-          </ResponsiveContainer>
+          <Reminder />
         </CardContent>
       </Card>
 
