@@ -50,7 +50,7 @@ BCRYPT_SALT_ROUNDS=10
 
 4. Run the Backend Server
 
-npm run dev
+npm run start:dev
 
 5. Install Frontend Dependencies
 

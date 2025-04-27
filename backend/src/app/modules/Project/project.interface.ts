@@ -4,5 +4,5 @@ export interface TProject {
   userEmail: string;
   deadline: Date;
   status: 'Ongoing' | 'Completed' | 'Pending';
-  clientId: string;
+  clientId?: string;
 }

@@ -9,22 +9,13 @@ import { useSelector } from "react-redux";
 import { InteractionForm } from "../../../types/project.types";
 
 const AddLogs = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<InteractionForm>();
+  const { register, handleSubmit, reset } = useForm<InteractionForm>();
 
   const { user } = useSelector((state: any) => state.auth);
 
   const [createInteraction] = useCreateLogsMutation();
 
-  const {
-    data: clientsData = [],
-    error,
-    isLoading,
-  } = useGetAllClientsQuery(user?.email);
+  const { data: clientsData = [] } = useGetAllClientsQuery(user?.email);
   const clients = clientsData?.data || [];
 
   const { data: projectsData = [] } = useGetAllProjectsQuery(user?.email);

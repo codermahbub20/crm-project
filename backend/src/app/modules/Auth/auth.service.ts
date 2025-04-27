@@ -28,6 +28,10 @@ const Login = async (payload: TLoginUser) => {
     throw new AppError(HttpStatus.UNAUTHORIZED, 'Invalid password');
   }
 
+  if (!user._id) {
+    throw new AppError(HttpStatus.INTERNAL_SERVER_ERROR, 'User ID is missing');
+  }
+
   const jwtPayload = {
     id: user._id,
     email: user.email,

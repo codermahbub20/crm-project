@@ -35,6 +35,7 @@ import {
 import { Log } from "../../types/project.types";
 
 const Dashboard = () => {
+  const [isClientModalOpen, setIsClientModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<any>(null);
 
@@ -87,7 +88,7 @@ const Dashboard = () => {
   // Open the modal and set the selected client
   const handleEditClient = (client: any) => {
     setSelectedClient(client);
-    setIsModalOpen(true);
+    setIsClientModalOpen(true);
   };
 
   // Delete a client
@@ -121,6 +122,12 @@ const Dashboard = () => {
   // Close the modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedClient(null);
+  };
+
+  // Close the modal
+  const handleCloseClientModal = () => {
+    setIsClientModalOpen(false);
     setSelectedClient(null);
   };
 
@@ -203,10 +210,10 @@ const Dashboard = () => {
       </Card>
 
       {/* Edit Client Modal */}
-      {isModalOpen && (
+      {isClientModalOpen && (
         <EditClientModal
           client={selectedClient}
-          onClose={handleCloseModal}
+          onClose={handleCloseClientModal}
           refetchClients={refetchClients}
         />
       )}

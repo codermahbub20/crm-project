@@ -26,7 +26,6 @@ const ProjectSchema = new Schema<TProject & Document>({
   clientId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Client',
-    required: true,
   }, // Reference to Client
 });
 
