@@ -3,13 +3,18 @@
 import { useForm, FieldValues } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useCreateClientMutation } from "../../../redux/features/Client/client.api";
+import {
+  useCreateClientMutation,
+  useGetAllClientsQuery,
+} from "../../../redux/features/Client/client.api";
 import { useSelector } from "react-redux";
 
 const CreateClient = () => {
   const navigate = useNavigate();
   const [createClient] = useCreateClientMutation();
   const { user } = useSelector((state: any) => state.auth);
+
+  const { refetch } = useGetAllClientsQuery(user?.email);
 
   const {
     register,
@@ -42,6 +47,7 @@ const CreateClient = () => {
       await createClient(clientInfo).unwrap();
       toast.success("Client added successfully");
       reset();
+      refetch();
       navigate(`/`);
     } catch (err: any) {
       toast.error("Something went wrong");

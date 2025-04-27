@@ -20,4 +20,19 @@ const getAllProjects = async (query: any) => {
   return projects;
 };
 
-export const ProjectService = { addProjectToClient, getAllProjects };
+const updateProjectById = async (id: string, updateData: Partial<TProject>) => {
+  const result = await Project.findByIdAndUpdate(id, updateData, { new: true });
+  return result;
+};
+
+const deleteProjectById = async (id: string) => {
+  const result = await Project.findByIdAndDelete(id);
+  return result;
+};
+
+export const ProjectService = {
+  addProjectToClient,
+  getAllProjects,
+  updateProjectById,
+  deleteProjectById,
+};
