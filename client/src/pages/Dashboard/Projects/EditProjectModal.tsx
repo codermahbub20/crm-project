@@ -8,6 +8,7 @@ interface Project {
   id?: string;
   _id?: string;
   title: string;
+  deadline: string;
   budget: number;
   status: string;
 }
@@ -26,6 +27,7 @@ const EditProjectModal: React.FC<EditProjectModalProps> = ({
   const [formData, setFormData] = useState({
     title: project.title,
     budget: project.budget,
+    deadline: new Date(project.deadline),
     status: project.status,
   });
 
@@ -81,6 +83,18 @@ const EditProjectModal: React.FC<EditProjectModalProps> = ({
               type="number"
               name="budget"
               value={formData.budget}
+              onChange={handleChange}
+              className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-700 dark:text-gray-300">
+              Deadline
+            </label>
+            <input
+              type="date"
+              name="deadline"
+              // value={formData.deadline}
               onChange={handleChange}
               className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
             />

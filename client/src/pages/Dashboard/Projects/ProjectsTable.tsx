@@ -6,6 +6,7 @@ interface Client {
   _id: string;
   title: string;
   budget: number;
+  deadline: string;
   status: string;
 }
 
@@ -36,6 +37,9 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
               Budget
             </th>
             <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-300">
+              Deadline
+            </th>
+            <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-300">
               Status
             </th>
             <th className="px-4 py-2 text-left text-gray-700 dark:text-gray-300">
@@ -60,6 +64,9 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
               </td>
               <td className="px-4 py-2 text-gray-800 dark:text-gray-300">
                 {project.budget}
+              </td>
+              <td className="px-4 py-2 text-gray-800 dark:text-gray-300">
+                {new Date(project.deadline).toLocaleDateString()}
               </td>
               <td
                 className={`px-4 py-2 font-semibold ${

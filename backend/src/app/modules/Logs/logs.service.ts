@@ -18,4 +18,13 @@ const addLogs = async (interactionData: TInteractionLog) => {
   return logs;
 };
 
-export const LogsService = { addLogs };
+const getAllLogs = async (query: any) => {
+  const { userEmail } = query;
+  const filter = userEmail ? { userEmail } : {};
+  const result = await InteractionLog.find(filter)
+    .populate('clientId')
+    .populate('projectId');
+  return result;
+};
+
+export const LogsService = { addLogs, getAllLogs };

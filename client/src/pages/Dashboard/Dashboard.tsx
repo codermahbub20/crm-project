@@ -23,6 +23,7 @@ import {
 } from "../../redux/features/Project/project.api";
 import ProjectsTable from "./Projects/ProjectsTable";
 import EditProjectModal from "./Projects/EditProjectModal";
+import LogsTable from "./Logs/LogsTable";
 
 const Card = ({
   children,
@@ -71,9 +72,6 @@ const Dashboard = () => {
   const clients = clientData?.data || [];
   const projects = projectData?.data || [];
 
-  // console.log(projectData?.data, "projects");
-
-  // Calculate projects by status dynamically
   const projectsByStatus = [
     {
       status: "Pending",
@@ -195,6 +193,30 @@ const Dashboard = () => {
             onEditProject={handleEditProject}
             onDeleteProject={handleDeleteProject}
           />
+        </CardContent>
+      </Card>
+
+      {/* Clients List */}
+      <Card className="col-span-1 md:col-span-2">
+        <CardContent className="space-y-4">
+          <LogsTable />
+        </CardContent>
+      </Card>
+
+      {/* Projects by Status Chart */}
+      <Card className="col-span-1">
+        <CardHeader>
+          <CardTitle>Projects by Status</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={projectsByStatus}>
+              <XAxis dataKey="status" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="count" fill="#3b82f6" />
+            </BarChart>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
 
