@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BarChart,
@@ -10,8 +11,12 @@ import {
 import ClientsTable from "./ClientsTable";
 import EditClientModal from "./EditClientModal";
 import { useState } from "react";
-import { useGetAllClientsQuery } from "../../redux/features/Client/client.api";
+import {
+  useDeleteClientMutation,
+  useGetAllClientsQuery,
+} from "../../redux/features/Client/client.api";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const Card = ({
   children,
@@ -46,7 +51,7 @@ const Dashboard = () => {
   const [selectedClient, setSelectedClient] = useState(null);
 
   const { user } = useSelector((state: any) => state.auth);
-
+  const [deleteClient] = useDeleteClientMutation();
   const { data = [], refetch } = useGetAllClientsQuery(user?.email);
 
   const clients = data?.data || [];
@@ -69,9 +74,16 @@ const Dashboard = () => {
     setSelectedClient(client);
     setIsModalOpen(true);
   };
-  const handleDeleteClient = (client: any) => {
-    setSelectedClient(client);
-    setIsModalOpen(true);
+
+  const handleDeleteClient = async (id) => {
+    try {
+      console.log("Deleting client with ID:", id); // Debugging log
+      await deleteClient(id).unwrap(); // Call the delete API
+      refetch(); // Refetch the client list after deletion
+      toast.success("Client deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete client");
+    }
   };
 
   // Close the modal
@@ -109,8 +121,8 @@ const Dashboard = () => {
         <CardContent className="space-y-4">
           <ClientsTable
             clients={clients}
-            onDeleteClient={handleDeleteClient}
             onEditClient={handleEditClient}
+            onDeleteClient={handleDeleteClient}
           />
         </CardContent>
       </Card>

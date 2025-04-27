@@ -13,9 +13,19 @@ const getAllClients = async (query: any) => {
   return result;
 };
 
+const deleteClientById = async (id: string) => {
+  const result = await Client.findByIdAndDelete(id);
+  return result;
+};
+
 const updateClientById = async (id: string, updateData: Partial<TClient>) => {
   const result = await Client.findByIdAndUpdate(id, updateData, { new: true });
   return result;
 };
 
-export const ClientService = { createClient, getAllClients, updateClientById };
+export const ClientService = {
+  createClient,
+  getAllClients,
+  updateClientById,
+  deleteClientById,
+};

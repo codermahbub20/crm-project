@@ -38,4 +38,22 @@ const updateClient = CatchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const ClientController = { createClient, getAllClients, updateClient };
+const deleteClient = CatchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  // console.log('Deleting client with ID:', id);
+  const result = await ClientService.deleteClientById(id);
+
+  sendResponse(res, {
+    statusCode: HttpStatus.OK,
+    success: true,
+    message: 'Client deleted successfully',
+    data: result,
+  });
+});
+
+export const ClientController = {
+  createClient,
+  getAllClients,
+  updateClient,
+  deleteClient,
+};

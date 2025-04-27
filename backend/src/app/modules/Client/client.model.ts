@@ -9,12 +9,10 @@ const ClientSchema = new Schema<TClient & Document>({
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   userEmail: {
     type: String,
     required: true,
-    unique: true,
   },
   phone: {
     type: String,

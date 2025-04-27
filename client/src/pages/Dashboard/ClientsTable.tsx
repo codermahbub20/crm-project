@@ -3,7 +3,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import React from "react";
 
 interface Client {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   phone: string;
@@ -20,6 +20,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
   onEditClient,
   onDeleteClient,
 }) => {
+  console.log("Clients data:", clients);
   return (
     <div className="overflow-x-auto">
       <h2 className="text-2xl font-semibold mb-4">Clients</h2>
@@ -49,7 +50,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
         <tbody>
           {clients.map((client, index) => (
             <tr
-              key={client.id}
+              key={client._id}
               className="border-t border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
             >
               <td className="px-4 py-2 text-gray-800 dark:text-gray-300">
@@ -74,7 +75,7 @@ const ClientsTable: React.FC<ClientsTableProps> = ({
               </td>
               <td className="px-4 py-2">
                 <button
-                  onClick={() => onDeleteClient(client.id)}
+                  onClick={() => onDeleteClient(client._id)}
                   className="text-red-600 hover:text-red-400"
                 >
                   <FaTrash className="inline-block" size={18} />
