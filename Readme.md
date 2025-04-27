@@ -1,90 +1,74 @@
-CRM Project
-A Customer Relationship Management (CRM) system built to manage clients, projects, and interaction logs efficiently.
-This project focuses on user authentication, client management, project tracking, and interaction reminders.
+# 📚 CRM Project
 
-🚀 Tech Stack
-Frontend
+A **Customer Relationship Management (CRM)** system built to efficiently manage clients, projects, and interaction logs.  
+Focus areas include **user authentication**, **client management**, **project tracking**, and **interaction reminders**.
 
-React.js (with Redux Toolkit + RTK Query)
+---
 
-TypeScript
+## 🚀 Tech Stack
 
-Backend
+### Frontend
 
-Node.js
+- **React.js** (with **Redux Toolkit** + **RTK Query**)
+- **TypeScript**
 
-Express.js
+### Backend
 
-TypeScript
+- **Node.js**
+- **Express.js**
+- **TypeScript**
+- **MongoDB** (with **Mongoose**)
+- **Bcrypt.js** (for password hashing)
+- **JWT** (for user authentication)
 
-MongoDB (Mongoose ORM)
+### Others
 
-Bcrypt.js (for password hashing)
+- **ESLint** & **Prettier** (for code formatting)
+- **Lucidchart** (for ERD design)
 
-JWT (for user authentication)
+---
 
-Others
+## ⚙️ Setup Instructions
 
-ESLint & Prettier (code formatting)
+### 1. Clone the Repository
 
-Lucidchart (for ERD design)
-
-⚙️ Setup Instructions
-Clone the repository:
-
-bash
-Copy
-Edit
+```bash
 git clone https://github.com/your-username/crm-project.git
 cd crm-project
-Install backend dependencies:
 
-bash
-Copy
-Edit
+/### 2. Install Backend Dependencies
 cd backend
 npm install
-Set up environment variables:
-Create a .env file inside backend/:
+3. Set Up Environment Variables
+Create a .env file inside the backend/ directory and add the following:
 
-env
-Copy
-Edit
 PORT=5000
 DATABASE_URL=mongodb://localhost:27017/crm-db
 JWT_SECRET=your_secret_key
 BCRYPT_SALT_ROUNDS=10
-Run the backend server:
+```
 
-bash
-Copy
-Edit
+4. Run the Backend Server
+
 npm run dev
-Install frontend dependencies:
 
-bash
-Copy
-Edit
+5. Install Frontend Dependencies
+
 cd ../frontend
 npm install
-Run the frontend server:
 
-bash
-Copy
-Edit
+6. Run the Frontend Server
+
 npm run dev
-🛠️ ERD (Entity Relationship Diagram)
-Here's the database structure:
 
-diff
-Copy
-Edit
+# Entity Relationship Diagram (ERD)
+
 User
 
 - id (PK)
 - name
 - email (unique)
-- password
+- password (hashed)
 - role (admin/user)
 - isBlocked
 
@@ -96,7 +80,7 @@ Client
 - phone
 - company
 - notes
-- userEmail (FK to User.email)
+- userEmail (FK → User.email)
 
 Project
 
@@ -105,7 +89,7 @@ Project
 - budget
 - deadline
 - status (Ongoing/Completed/Pending)
-- clientId (FK to Client.id)
+- clientId (FK → Client.id)
 
 InteractionLog
 
@@ -113,42 +97,81 @@ InteractionLog
 - date
 - interactionType (Call/Meeting/Email)
 - notes
-- clientId (FK to Client.id)
-- projectId (FK to Project.id)
-  Relationships:
+- clientId (FK → Client.id)
+- projectId (FK → Project.id)
 
-One User ➡️ Many Clients
+# Folder Structure
 
-One Client ➡️ Many Projects
+crm-project/
+├── backend/
+│ ├── src/
+│ │ ├── modules/
+│ │ │ ├── user/
+│ │ │ ├── client/
+│ │ │ ├── project/
+│ │ │ ├── interactionLog/
+│ │ ├── app.ts
+│ │ ├── server.ts
+│ ├── package.json
+│ ├── .env
+├── frontend/
+│ ├── src/
+│ │ ├── components/
+│ │ ├── pages/
+│ │ ├── hooks/
+│ │ ├── redux/
+│ ├── vite.config.ts
+│ ├── package.json
+│ ├── .env
+├── README.md
 
-One Client ➡️ Many InteractionLogs
+# Summary of Approach and Decisions
 
-One Project ➡️ Many InteractionLogs
+# Separation of Concerns:
 
-(You can attach the visual ERD image separately if you need to.)
+Models, routes, controllers, and interfaces are modularized for clean architecture.
 
-📖 Summary of Approach and Decisions
-Separation of Concerns: Models, routes, controllers, and interfaces are properly separated to maintain clean architecture.
+# Authentication & Security:
 
-Authentication & Security: Used Bcrypt.js for password hashing and JWT for authentication. Passwords are hidden after save operations.
+Passwords are securely hashed using Bcrypt.js.
 
-Relational Integrity: Although MongoDB is a NoSQL database, we maintained strong references (ObjectId) between Clients, Projects, and Interaction Logs.
+JWTs are used for secure user authentication.
 
-Modular Design: Each model (User, Client, Project, InteractionLog) is kept independent, which allows easy scaling.
+Passwords are hidden in all response payloads.
 
-Frontend Communication: Used Redux Toolkit Query (RTK Query) for efficient API communication with caching and automatic refetching.
+# Relational Integrity:
 
-Code Quality: Enforced linting with ESLint and consistent formatting with Prettier.
+Strong references (ObjectId) between Clients, Projects, and Interaction Logs ensure data consistency even in MongoDB.
 
-Reminders & Notifications: Implemented functionality to show upcoming interactions within the next 7 days for better client engagement.
+# Modular Design:
 
-🔥 Future Improvements (Optional)
-Add role-based access control (RBAC) for admin users.
+Each entity (User, Client, Project, InteractionLog) is independently designed for scalability.
 
-Integration with email services for automated client reminders.
+# Frontend Communication:
 
-Export client/project reports in PDF or Excel.
+Used RTK Query for efficient, cached, and auto-refetched API communications.
 
-Deploy on cloud platforms (Vercel for frontend, Render/Heroku for backend).
+# Code Quality:
 
-Thank you! 🚀
+Consistent code formatting and quality checks with ESLint and Prettier.
+
+# Reminders & Notifications:
+
+Automatic alerts for upcoming interactions within 7 days to boost client engagement.
+
+# 🔥 Future Improvements
+
+Implement Role-Based Access Control (RBAC) for better permission handling.
+
+Integrate email services to send automated client interaction reminders.
+
+Export reports (Clients/Projects) in PDF or Excel format.
+
+# Deploy the project:
+
+Frontend → Vercel
+
+# Backend → Render or Heroku
+
+🙌 Thank You!
+Happy coding! 🚀
