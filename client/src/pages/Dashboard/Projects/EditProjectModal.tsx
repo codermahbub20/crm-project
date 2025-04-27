@@ -1,37 +1,39 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useUpdateClientMutation } from "../../redux/features/Client/client.api";
 import { toast } from "sonner";
+import { useUpdateProjectMutation } from "../../../redux/features/Project/project.api";
 
-interface Client {
+interface Project {
   id?: string;
   _id?: string;
-  name: string;
-  email: string;
-  phone: string;
+  title: string;
+  budget: number;
+  status: string;
 }
 
-interface EditClientModalProps {
-  client: Client;
+interface EditProjectModalProps {
+  project: Project;
   onClose: () => void;
-  refetchClients: () => void;
+  refetchProjects: () => void;
 }
 
-const EditClientModal: React.FC<EditClientModalProps> = ({
-  client,
+const EditProjectModal: React.FC<EditProjectModalProps> = ({
+  project,
   onClose,
-  refetchClients,
+  refetchProjects,
 }) => {
   const [formData, setFormData] = useState({
-    name: client.name,
-    email: client.email,
-    phone: client.phone,
+    title: project.title,
+    budget: project.budget,
+    status: project.status,
   });
 
-  const [updateClient] = useUpdateClientMutation();
+  const [updateProject] = useUpdateProjectMutation();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -40,20 +42,20 @@ const EditClientModal: React.FC<EditClientModalProps> = ({
     e.preventDefault();
 
     try {
-      const updatedClient = {
-        id: client._id || client.id, // Include the client ID
-        ...formData, // Include the updated fields
+      const updatedProject = {
+        id: project._id || project.id,
+        ...formData,
       };
 
-      // Call the API to update the client
-      await updateClient(updatedClient).unwrap();
-      refetchClients();
-      toast.success("Client updated successfully");
-      onClose(); // Close the modal after saving
+      await updateProject(updatedProject).unwrap();
+      refetchProjects();
+      toast.success("Project updated successfully");
+      onClose();
     } catch (error) {
-      toast.error("Failed to update client");
+      toast.error("Failed to update Project");
     }
   };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
@@ -65,35 +67,38 @@ const EditClientModal: React.FC<EditClientModalProps> = ({
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="title"
+              value={formData.title}
               onChange={handleChange}
               className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
             />
           </div>
           <div>
             <label className="block text-gray-700 dark:text-gray-300">
-              Email
+              Budget
             </label>
             <input
-              type="email"
-              name="email"
-              value={formData.email}
+              type="number"
+              name="budget"
+              value={formData.budget}
               onChange={handleChange}
               className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
             />
           </div>
           <div>
             <label className="block text-gray-700 dark:text-gray-300">
-              Phone
+              Status
             </label>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
+            <select
+              name="status"
+              value={formData.status}
               onChange={handleChange}
-              className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
-            />
+              className="mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 dark:text-white"
+            >
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+              <option value="Pending">Pending</option>
+            </select>
           </div>
           <div className="flex justify-end space-x-4">
             <button
@@ -116,4 +121,4 @@ const EditClientModal: React.FC<EditClientModalProps> = ({
   );
 };
 
-export default EditClientModal;
+export default EditProjectModal;

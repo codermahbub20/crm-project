@@ -3,7 +3,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useCreateProjectMutation } from "../../../redux/features/Project/project.api";
+import {
+  useCreateProjectMutation,
+  useGetAllProjectsQuery,
+} from "../../../redux/features/Project/project.api";
 import { useGetAllClientsQuery } from "../../../redux/features/Client/client.api";
 import { useSelector } from "react-redux";
 
@@ -33,6 +36,8 @@ const CreateProject = () => {
 
   const { data = [], error, isLoading } = useGetAllClientsQuery(user?.email);
 
+  const { refetch } = useGetAllProjectsQuery(user?.email);
+
   const clients = data?.data || [];
 
   const [createProject] = useCreateProjectMutation();
@@ -52,7 +57,8 @@ const CreateProject = () => {
       await createProject(projectInfo).unwrap();
       toast.success("Project added successfully");
       reset();
-      navigate("/projects"); // Redirect after successful creation
+      refetch();
+      navigate("/projects");
     } catch (err) {
       toast.error("Failed to add project");
     }

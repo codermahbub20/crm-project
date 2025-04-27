@@ -8,8 +8,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import ClientsTable from "./ClientsTable";
-import EditClientModal from "./EditClientModal";
+import ClientsTable from "./ClientTable/ClientsTable";
+import EditClientModal from "./ClientTable/EditClientModal";
 import { useState } from "react";
 import {
   useDeleteClientMutation,
@@ -17,6 +17,12 @@ import {
 } from "../../redux/features/Client/client.api";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import {
+  useDeleteProjectMutation,
+  useGetAllProjectsQuery,
+} from "../../redux/features/Project/project.api";
+import ProjectsTable from "./Projects/ProjectsTable";
+import EditProjectModal from "./Projects/EditProjectModal";
 
 const Card = ({
   children,
@@ -48,23 +54,42 @@ const CardTitle = ({ children }: { children: React.ReactNode }) => (
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedClient, setSelectedClient] = useState<any>(null);
 
   const { user } = useSelector((state: any) => state.auth);
+
+  // Fetch clients
+  const { data: clientData = [], refetch: refetchClients } =
+    useGetAllClientsQuery(user?.email);
   const [deleteClient] = useDeleteClientMutation();
-  const { data = [], refetch } = useGetAllClientsQuery(user?.email);
 
-  const clients = data?.data || [];
+  // Fetch projects
+  const { data: projectData = [], refetch: refetchProject } =
+    useGetAllProjectsQuery(user?.email);
+  const [deleteProject] = useDeleteProjectMutation();
 
+  const clients = clientData?.data || [];
+  const projects = projectData?.data || [];
+
+  // console.log(projectData?.data, "projects");
+
+  // Calculate projects by status dynamically
   const projectsByStatus = [
-    { status: "In Progress", count: 4 },
-    { status: "Completed", count: 2 },
-    { status: "Pending", count: 2 },
-  ];
-
-  const interactionLogs = [
-    { date: "04/25/2025", type: "Call", note: "Discussed project details" },
-    { date: "04/24/2025", type: "Meeting", note: "Reviewed requirements" },
+    {
+      status: "Pending",
+      count: projectData?.data?.filter((p: any) => p.status === "Pending")
+        .length,
+    },
+    {
+      status: "Completed",
+      count: projectData?.data?.filter((p: any) => p.status === "Completed")
+        .length,
+    },
+    {
+      status: "OnGoing",
+      count: projectData?.data?.filter((p: any) => p.status === "Ongoing")
+        .length,
+    },
   ];
 
   const remindersDue = 2;
@@ -75,14 +100,31 @@ const Dashboard = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteClient = async (id) => {
+  // Delete a client
+  const handleDeleteClient = async (id: string) => {
     try {
-      console.log("Deleting client with ID:", id); // Debugging log
-      await deleteClient(id).unwrap(); // Call the delete API
-      refetch(); // Refetch the client list after deletion
+      await deleteClient(id).unwrap();
+      refetchClients(); // Refetch clients after deletion
       toast.success("Client deleted successfully");
     } catch (error) {
       toast.error("Failed to delete client");
+    }
+  };
+
+  // Open the modal and set the selected client
+  const handleEditProject = (client: any) => {
+    setSelectedClient(client);
+    setIsModalOpen(true);
+  };
+
+  // Delete a client
+  const handleDeleteProject = async (id: string) => {
+    try {
+      await deleteProject(id).unwrap();
+      refetchProject();
+      toast.success("Project deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete Project");
     }
   };
 
@@ -98,15 +140,13 @@ const Dashboard = () => {
       <Card className="col-span-1">
         <CardContent className="p-6 text-center">
           <h2 className="text-lg font-semibold">Total Clients</h2>
-          <p className="text-2xl font-bold">{clients?.length}</p>
+          <p className="text-2xl font-bold">{clients.length}</p>
         </CardContent>
       </Card>
       <Card className="col-span-1">
         <CardContent className="p-6 text-center">
           <h2 className="text-lg font-semibold">Total Projects</h2>
-          <p className="text-2xl font-bold">
-            {projectsByStatus.reduce((acc, curr) => acc + curr.count, 0)}
-          </p>
+          <p className="text-2xl font-bold">{projects.length}</p>
         </CardContent>
       </Card>
       <Card className="col-span-1">
@@ -144,22 +184,17 @@ const Dashboard = () => {
         </CardContent>
       </Card>
 
-      {/* Interaction Logs */}
+      {/* Projects Table */}
       <Card className="col-span-1 md:col-span-3">
         <CardHeader>
-          <CardTitle>Interaction Logs</CardTitle>
+          <CardTitle>All Projects</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {interactionLogs.map((log, index) => (
-            <div key={index} className="flex justify-between border-b pb-2">
-              <div>
-                <p className="font-semibold">
-                  {log.date} - {log.type}
-                </p>
-                <p className="text-gray-500">{log.note}</p>
-              </div>
-            </div>
-          ))}
+          <ProjectsTable
+            projects={projects}
+            onEditProject={handleEditProject}
+            onDeleteProject={handleDeleteProject}
+          />
         </CardContent>
       </Card>
 
@@ -168,7 +203,15 @@ const Dashboard = () => {
         <EditClientModal
           client={selectedClient}
           onClose={handleCloseModal}
-          refetchClients={refetch}
+          refetchClients={refetchClients}
+        />
+      )}
+      {/* Edit Client Modal */}
+      {isModalOpen && (
+        <EditProjectModal
+          project={selectedClient}
+          onClose={handleCloseModal}
+          refetchProjects={refetchProject}
         />
       )}
     </div>
