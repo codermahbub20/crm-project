@@ -11,7 +11,7 @@ const projectApi = baseApi.injectEndpoints({
       query: (userEmail) => ({
         url: "/projects",
         method: "GET",
-        params: userEmail ? { userEmail } : {}, // Pass userEmail as a query parameter
+        params: userEmail ? { userEmail } : {},
       }),
     }),
 
@@ -26,9 +26,16 @@ const projectApi = baseApi.injectEndpoints({
     // Update an existing client
     updateProject: builder.mutation({
       query: ({ id, ...patch }) => ({
-        url: `project/${id}`,
+        url: `/projects/${id}`,
         method: "PATCH",
         body: patch,
+      }),
+    }),
+
+    deleteProject: builder.mutation({
+      query: (id) => ({
+        url: `/projects/${id}`,
+        method: "DELETE",
       }),
     }),
   }),
@@ -41,6 +48,7 @@ export const {
   useGetAllProjectsQuery,
   useCreateProjectMutation,
   useUpdateProjectMutation,
+  useDeleteProjectMutation,
 } = projectApi;
 
 export default projectApi;
