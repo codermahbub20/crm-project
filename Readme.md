@@ -131,7 +131,7 @@ crm-project/
 
 Models, routes, controllers, and interfaces are modularized for clean architecture.
 
-# Authentication & Security:
+Authentication & Security:
 
 Passwords are securely hashed using Bcrypt.js.
 
@@ -139,23 +139,23 @@ JWTs are used for secure user authentication.
 
 Passwords are hidden in all response payloads.
 
-# Relational Integrity:
+Relational Integrity:
 
 Strong references (ObjectId) between Clients, Projects, and Interaction Logs ensure data consistency even in MongoDB.
 
-# Modular Design:
+Modular Design:
 
 Each entity (User, Client, Project, InteractionLog) is independently designed for scalability.
 
-# Frontend Communication:
+Frontend Communication:
 
 Used RTK Query for efficient, cached, and auto-refetched API communications.
 
-# Code Quality:
+Code Quality:
 
 Consistent code formatting and quality checks with ESLint and Prettier.
 
-# Reminders & Notifications:
+Reminders & Notifications:
 
 Automatic alerts for upcoming interactions within 7 days to boost client engagement.
 
