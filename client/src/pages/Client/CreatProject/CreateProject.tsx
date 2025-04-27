@@ -9,19 +9,7 @@ import {
 } from "../../../redux/features/Project/project.api";
 import { useGetAllClientsQuery } from "../../../redux/features/Client/client.api";
 import { useSelector } from "react-redux";
-
-interface AddProjectForm {
-  title: string;
-  budget: number;
-  deadline: string;
-  status: string;
-  clientId: string;
-}
-
-interface Client {
-  _id: string;
-  name: string;
-}
+import { AddProjectForm, Client } from "../../../types/project.types";
 
 const CreateProject = () => {
   const navigate = useNavigate();

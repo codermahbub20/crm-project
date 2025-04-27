@@ -3,15 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useUpdateProjectMutation } from "../../../redux/features/Project/project.api";
-
-interface Project {
-  id?: string;
-  _id?: string;
-  title: string;
-  deadline: string;
-  budget: number;
-  status: string;
-}
+import { Project } from "../../../types/project.types";
 
 interface EditProjectModalProps {
   project: Project;

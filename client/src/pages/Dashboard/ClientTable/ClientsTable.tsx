@@ -1,13 +1,7 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 import React from "react";
-
-interface Client {
-  _id: string;
-  name: string;
-  email: string;
-  phone: string;
-}
+import { Client } from "../../../types/project.types";
 
 interface ClientsTableProps {
   clients: Client[];

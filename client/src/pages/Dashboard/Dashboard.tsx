@@ -26,34 +26,13 @@ import EditProjectModal from "./Projects/EditProjectModal";
 import LogsTable from "./Logs/LogsTable";
 import Reminder from "./Reminders/Reminder";
 import { useGetAllLogsQuery } from "../../redux/features/Logs/logs.api";
-
-const Card = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => (
-  <div className={`bg-white shadow rounded-lg p-4 ${className}`}>
-    {children}
-  </div>
-);
-
-const CardContent = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => <div className={className}>{children}</div>;
-
-const CardHeader = ({ children }: { children: React.ReactNode }) => (
-  <div className="mb-2">{children}</div>
-);
-
-const CardTitle = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="text-lg font-bold">{children}</h2>
-);
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../../components/ui/Card";
+import { Log } from "../../types/project.types";
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -104,8 +83,6 @@ const Dashboard = () => {
         .length,
     },
   ];
-
-  const remindersDue = 2;
 
   // Open the modal and set the selected client
   const handleEditClient = (client: any) => {

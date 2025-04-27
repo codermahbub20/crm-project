@@ -1,18 +1,11 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 import React from "react";
-
-interface Client {
-  _id: string;
-  title: string;
-  budget: number;
-  deadline: string;
-  status: string;
-}
+import { Project } from "../../../types/project.types";
 
 interface ProjectsTableProps {
-  projects: Client[];
-  onEditProject: (client: Client) => void;
+  projects: Project[];
+  onEditProject: (client: Project) => void;
   onDeleteProject: (id: string) => void;
 }
 
@@ -92,7 +85,7 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
               </td>
               <td className="px-4 py-2">
                 <button
-                  onClick={() => onDeleteProject(project._id)}
+                  onClick={() => onDeleteProject(project._id as string)}
                   className="text-red-600 hover:text-red-400"
                 >
                   <FaTrash className="inline-block" size={18} />

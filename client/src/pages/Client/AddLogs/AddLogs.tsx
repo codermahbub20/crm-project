@@ -6,14 +6,7 @@ import { useGetAllClientsQuery } from "../../../redux/features/Client/client.api
 import { useGetAllProjectsQuery } from "../../../redux/features/Project/project.api";
 import { useCreateLogsMutation } from "../../../redux/features/Logs/logs.api";
 import { useSelector } from "react-redux";
-
-interface InteractionForm {
-  date: string;
-  interactionType: string;
-  notes: string;
-  clientId?: string;
-  projectId?: string;
-}
+import { InteractionForm } from "../../../types/project.types";
 
 const AddLogs = () => {
   const {

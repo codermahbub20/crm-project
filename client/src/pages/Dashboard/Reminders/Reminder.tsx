@@ -1,19 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useSelector } from "react-redux";
 import { useGetAllLogsQuery } from "../../../redux/features/Logs/logs.api";
-
-interface Log {
-  _id: string;
-  date: string;
-  interactionType: string;
-  notes: string;
-  clientId?: {
-    name: string;
-  };
-  projectId?: {
-    title: string;
-  };
-}
+import { Log } from "../../../types/project.types";
 
 const Reminder = () => {
   const { user } = useSelector((state: any) => state.auth);

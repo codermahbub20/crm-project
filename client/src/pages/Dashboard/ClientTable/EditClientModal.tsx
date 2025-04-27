@@ -3,14 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useUpdateClientMutation } from "../../../redux/features/Client/client.api";
-
-interface Client {
-  id?: string;
-  _id?: string;
-  name: string;
-  email: string;
-  phone: string;
-}
+import { Client } from "../../../types/project.types";
 
 interface EditClientModalProps {
   client: Client;
