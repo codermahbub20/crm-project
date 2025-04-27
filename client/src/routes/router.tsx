@@ -6,6 +6,8 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import LogIn from "../pages/Login/LogIn";
 import Signup from "../pages/Signup/Signup";
 import AddLogs from "../pages/Client/AddLogs/AddLogs";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
+import NotFoundPage from "../pages/NotFoundPage";
 
 // import CheckoutPage from '../pages/ChekoutPage/CheckoutPage'
 
@@ -13,22 +15,39 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: "/",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/clients",
-        element: <CreateClient />,
+        element: (
+          <ProtectedRoute>
+            <CreateClient />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/projects",
-        element: <CreateProject />,
+        element: (
+          <ProtectedRoute>
+            <CreateProject />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/logs",
-        element: <AddLogs />,
+        element: (
+          <ProtectedRoute>
+            <AddLogs />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/login",

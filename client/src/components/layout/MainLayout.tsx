@@ -48,7 +48,6 @@ const MainLayout = () => {
         { name: "Create Clients", href: "/clients" },
         { name: "Create Projects", href: "/projects" },
         { name: "Create Logs", href: "/logs" },
-        { name: "Add Reminders", href: "/reminders" },
       ]
     : [
         { name: "Login", href: "/login" },
